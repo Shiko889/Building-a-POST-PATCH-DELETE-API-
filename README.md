@@ -582,53 +582,62 @@ def reviews():
 @app.route('/reviews/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def review_by_id(id):
     review = Review.query.filter_by(id=id).first()
-
-    if request.method == 'GET':
-        review_dict = review.to_dict()
-
-        response = make_response(
-            jsonify(review_dict),
-            200
-        )
-        response.headers["Content-Type"] = "application/json"
-
-        return response
-
-    elif request.method == 'PATCH':
-        review = Review.query.filter_by(id=id).first()
-
-        for attr in request.form:
-            setattr(review, attr, request.form.get(attr))
-
-        db.session.add(review)
-        db.session.commit()
-        
-        review_dict = review.to_dict()
-
-        response = make_response(
-            jsonify(review_dict),
-            200
-        )
-        response.headers["Content-Type"] = "application/json"
-
-        return response
-
-    elif request.method == 'DELETE':
-        db.session.delete(review)
-        db.session.commit()
-
+    
+    if review == None:
         response_body = {
-            "delete_successful": True,
-            "message": "Review deleted."    
+            "message": "This record does not exist in our database. Please try again."
         }
-
-        response = make_response(
-            jsonify(response_body),
-            200
-        )
+        response = make_response(jsonify(response_body), 404)
         response.headers["Content-Type"] = "application/json"
-
         return response
+        
+    else:
+        if request.method == 'GET':
+            review_dict = review.to_dict()
+
+            response = make_response(
+                jsonify(review_dict),
+                200
+            )
+            response.headers["Content-Type"] = "application/json"
+
+            return response
+
+        elif request.method == 'PATCH':
+            review = Review.query.filter_by(id=id).first()
+
+            for attr in request.form:
+                setattr(review, attr, request.form.get(attr))
+
+            db.session.add(review)
+            db.session.commit()
+
+            review_dict = review.to_dict()
+
+            response = make_response(
+                jsonify(review_dict),
+                200
+            )
+            response.headers["Content-Type"] = "application/json"
+
+            return response
+
+        elif request.method == 'DELETE':
+            db.session.delete(review)
+            db.session.commit()
+
+            response_body = {
+                "delete_successful": True,
+                "message": "Review deleted."    
+            }
+
+            response = make_response(
+                jsonify(response_body),
+                200
+            )
+            response.headers["Content-Type"] = "application/json"
+
+            return response
 
 @app.route('/users')
 def users():
