@@ -135,7 +135,6 @@ def review_by_id(id):
             jsonify(review_dict),
             200
         )
-        response.headers["Content-Type"] = "application/json"
 
         return response
 
@@ -152,7 +151,6 @@ def review_by_id(id):
             jsonify(response_body),
             200
         )
-        response.headers["Content-Type"] = "application/json"
 
         return response
 
@@ -291,7 +289,6 @@ def reviews():
             jsonify(reviews),
             200
         )
-        response.headers["Content-Type"] = "application/json"
 
         return response
     
@@ -301,7 +298,6 @@ def reviews():
             response_body,
             201
         )
-        response.headers["Content-Type"] = "application/json"
         
         return response
 
@@ -330,7 +326,6 @@ def reviews():
             jsonify(reviews),
             200
         )
-        response.headers["Content-Type"] = "application/json"
 
         return response
     
@@ -351,7 +346,6 @@ def reviews():
             jsonify(review_dict),
             201
         )
-        response.headers["Content-Type"] = "application/json"
 
         return response
 
@@ -453,7 +447,6 @@ Ok, here's how the code for this route would look:
             jsonify(review_dict),
             200
         )
-        response.headers["Content-Type"] = "application/json"
 
         return response
 
@@ -490,8 +483,6 @@ you can build an API for almost any application you can think of!
 ```py
 # app/app.py
 
-#!/usr/bin/env python3
-
 from flask import Flask, jsonify, request, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -523,7 +514,6 @@ def games():
         jsonify(games),
         200
     )
-    response.headers["Content-Type"] = "application/json"
 
     return response
 
@@ -537,7 +527,6 @@ def game_by_id(id):
         jsonify(game_dict),
         200
     )
-    response.headers["Content-Type"] = "application/json"
 
     return response
 
@@ -554,7 +543,6 @@ def reviews():
             jsonify(reviews),
             200
         )
-        response.headers["Content-Type"] = "application/json"
 
         return response
     
@@ -575,7 +563,6 @@ def reviews():
             jsonify(review_dict),
             201
         )
-        response.headers["Content-Type"] = "application/json"
 
         return response
 
@@ -588,7 +575,7 @@ def review_by_id(id):
             "message": "This record does not exist in our database. Please try again."
         }
         response = make_response(jsonify(response_body), 404)
-        response.headers["Content-Type"] = "application/json"
+
         return response
         
     else:
@@ -599,7 +586,6 @@ def review_by_id(id):
                 jsonify(review_dict),
                 200
             )
-            response.headers["Content-Type"] = "application/json"
 
             return response
 
@@ -618,7 +604,6 @@ def review_by_id(id):
                 jsonify(review_dict),
                 200
             )
-            response.headers["Content-Type"] = "application/json"
 
             return response
 
@@ -635,7 +620,6 @@ def review_by_id(id):
                 jsonify(response_body),
                 200
             )
-            response.headers["Content-Type"] = "application/json"
 
             return response
 
@@ -651,7 +635,6 @@ def users():
         jsonify(users),
         200
     )
-    response.headers["Content-Type"] = "application/json"
 
     return response
 
