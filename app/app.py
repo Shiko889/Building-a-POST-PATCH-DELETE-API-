@@ -7,9 +7,9 @@ from flask_migrate import Migrate
 from models import db, User, Review, Game
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.json.compact = False
 
 migrate = Migrate(app, db)
 
@@ -36,7 +36,6 @@ def games():
         jsonify(games),
         200
     )
-    response.headers["Content-Type"] = "application/json"
 
     return response
 
@@ -50,7 +49,6 @@ def game_by_id(id):
         jsonify(game_dict),
         200
     )
-    response.headers["Content-Type"] = "application/json"
 
     return response
 
@@ -66,7 +64,6 @@ def reviews():
         jsonify(reviews),
         200
     )
-    response.headers["Content-Type"] = "application/json"
 
     return response
 
@@ -82,7 +79,6 @@ def users():
         jsonify(users),
         200
     )
-    response.headers["Content-Type"] = "application/json"
 
     return response
 

@@ -50,6 +50,7 @@ jspm_packages
 # pytest cache
 .pytest_cache
 
+instance
 *.db
 */*.db
 */*/*.db
