@@ -50,28 +50,26 @@ We'll continue working on the game review application from the previous lessons.
 To get set up, run:
 
 ```console
-$ pipenv install && pipenv shell
-$ export FLASK_APP=app/app.py
-$ export FLASK_RUN_PORT=5555
-$ cd app
+$ pipenv install; pipenv shell
+$ cd server
 $ flask db upgrade
 $ python seed.py
 ```
 
-You can view the models in the `app/models.py` module, and the migrations in the
-`app/migrations/versions` directory. Here's what the relationships will look
+You can view the models in the `server/models.py` module, and the migrations in the
+`server/migrations/versions` directory. Here's what the relationships will look
 like in our ERD:
 
 ![Game Reviews ERD](https://curriculum-content.s3.amazonaws.com/phase-3/active-record-associations-many-to-many/games-reviews-users-erd.png)
 
-`app/app.py` has also been configured with `GET` routes for all `Review` and
+`server/app.py` has also been configured with `GET` routes for all `Review` and
 `User` records.
 
 Now, run the server with Flask and re-explore some of the routes from our `GET`
 lesson and the new `/reviews` and `/users` routes:
 
 ```console
-$ flask run
+$ python app.py
 ```
 
 With that set up, let's start working on some CRUD!
@@ -109,7 +107,7 @@ function ReviewItem({ review, onDeleteReview }) {
 
 So, it looks like our server needs to handle a few new things:
 
-- Handle requests with the `DELETE` HTTP verb to `/reviews/:id`.
+- Handle requests with the `DELETE` HTTP verb to `/reviews/<int:id>`.
 - Find the review to delete using the ID.
 - Delete the review from the database.
 - Send a response with the deleted review as JSON to confirm that it was deleted
@@ -120,7 +118,7 @@ adding a new route in the controller. We can write out a route for a DELETE
 request just like we would for a GET request, just by changing the method:
 
 ```py
-# app/app.py
+# server/app.py
 
 # imports, config, games, game_by_id, reviews
 
@@ -132,7 +130,7 @@ def review_by_id(id):
         review_dict = review.to_dict()
 
         response = make_response(
-            jsonify(review_dict),
+            review_dict,
             200
         )
 
@@ -148,7 +146,7 @@ def review_by_id(id):
         }
 
         response = make_response(
-            jsonify(response_body),
+            response_body,
             200
         )
 
@@ -161,10 +159,10 @@ Let's review the new content:
 - The `@app.route` decorator accepts `methods` as a default argument. This is
   simply a list of accepted methods as strings. By default, this list only
   contains `'GET'`.
-- The request contxt allows us to access the HTTP method used by the request and
-  control flow from there. If the request's method is `GET`, we perform the same
-  actions that we did in the `/games/<int:id>` route. If the method is `DELETE`,
-  we delete the resource.
+- The request context allows us to access the HTTP method used by the request
+  and control flow from there. If the request's method is `GET`, we perform the
+  same actions that we did in the `/games/<int:id>` route. If the method is
+  `DELETE`, we delete the resource.
 - Unsupported methods will receive a 405 response code by default. This means
   "Method Not Allowed".
 
@@ -198,7 +196,7 @@ https://curriculum-content.s3.amazonaws.com/python/building-post-patch-delete-ap
 )
 
 I know what you're thinking: how could we possibly delete this illuminating
-review of "All lawyer as teacher world any?" How will anyone know that
+review of "All lawyer as teacher world any"? How will anyone know that
 "Republican help young large treatment note"?
 
 Alas, we need to make sure our API works. Change the request method to `DELETE`
@@ -263,16 +261,16 @@ the form. From the code above, you can see that we'll have access to that data
 in the **body** of the request, as a JSON-formatted string. So in terms of the
 steps for our server, we need to:
 
-- Handle requests with the `POST` HTTP verb to `/reviews`
-- Access the data in the body of the request
-- Use that data to create a new review in the database
-- Send a response with newly created review as JSON
+- Handle requests with the `POST` HTTP verb to `/reviews`.
+- Access the data in the body of the request.
+- Use that data to create a new review in the database.
+- Send a response with newly created review as JSON.
 
 Let's start with the easy part. We can create a workflow for a new method like
 so:
 
 ```py
-#app/app.py
+#server/app.py
 
 # imports, config, games, game_by_id
 
@@ -286,7 +284,7 @@ def reviews():
             reviews.append(review_dict)
 
         response = make_response(
-            jsonify(reviews),
+            reviews,
             200
         )
 
@@ -309,7 +307,7 @@ In this new block, we'll need to create a new record using the attributes
 passed in the request.
 
 ```py
-#app/app.py
+# server/app.py
 
 # imports, config, games, game_by_id
 
@@ -323,7 +321,7 @@ def reviews():
             reviews.append(review_dict)
 
         response = make_response(
-            jsonify(reviews),
+            reviews,
             200
         )
 
@@ -343,7 +341,7 @@ def reviews():
         review_dict = new_review.to_dict()
 
         response = make_response(
-            jsonify(review_dict),
+            review_dict,
             201
         )
 
@@ -425,7 +423,7 @@ you need to get this request working. When you're ready, keep scrolling...
 Ok, here's how the code for this route would look:
 
 ```py
-# app/app.py
+# server/app.py
 
 # imports, config, games, game_by_id, reviews
 @app.route('/reviews/<int:id', methods=['GET', 'PATCH', 'DELETE'])
@@ -444,7 +442,7 @@ Ok, here's how the code for this route would look:
         review_dict = review.to_dict()
 
         response = make_response(
-            jsonify(review_dict),
+            review_dict,
             200
         )
 
@@ -481,7 +479,7 @@ you can build an API for almost any application you can think of!
 ## Solution Code
 
 ```py
-# app/app.py
+# server/app.py
 
 from flask import Flask, jsonify, request, make_response
 from flask_sqlalchemy import SQLAlchemy
@@ -511,7 +509,7 @@ def games():
         games.append(game_dict)
 
     response = make_response(
-        jsonify(games),
+        games,
         200
     )
 
@@ -524,7 +522,7 @@ def game_by_id(id):
     game_dict = game.to_dict()
 
     response = make_response(
-        jsonify(game_dict),
+        game_dict,
         200
     )
 
@@ -540,7 +538,7 @@ def reviews():
             reviews.append(review_dict)
 
         response = make_response(
-            jsonify(reviews),
+            reviews,
             200
         )
 
@@ -560,7 +558,7 @@ def reviews():
         review_dict = new_review.to_dict()
 
         response = make_response(
-            jsonify(review_dict),
+            review_dict,
             201
         )
 
@@ -583,7 +581,7 @@ def review_by_id(id):
             review_dict = review.to_dict()
 
             response = make_response(
-                jsonify(review_dict),
+                review_dict,
                 200
             )
 
@@ -601,7 +599,7 @@ def review_by_id(id):
             review_dict = review.to_dict()
 
             response = make_response(
-                jsonify(review_dict),
+                review_dict,
                 200
             )
 
@@ -617,7 +615,7 @@ def review_by_id(id):
             }
 
             response = make_response(
-                jsonify(response_body),
+                response_body,
                 200
             )
 
@@ -632,14 +630,14 @@ def users():
         users.append(user_dict)
 
     response = make_response(
-        jsonify(users),
+        users,
         200
     )
 
     return response
 
 if __name__ == '__main__':
-    app.run(port=5555)
+    app.run(port=5555, debug=True)
 
 ```
 

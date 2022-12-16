@@ -51,6 +51,3 @@ jspm_packages
 .pytest_cache
 
 instance
-*.db
-*/*.db
-*/*/*.db

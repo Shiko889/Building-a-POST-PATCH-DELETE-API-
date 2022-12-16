@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "699baa118e1db9fd8d00e89f9381210f9b6f6a6c9e3195698917e98ea5b722a8"
+            "sha256": "3cc846057eca77a70c94e3b1b2328fdfb7d0a36ee940cbdb9037f0e259336cb9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -21,7 +21,7 @@
                 "sha256:6af6792fe699730b27480382701b16028ebbaac6bc5cd4f06daf5fa3e4690364",
                 "sha256:e8ce855f731d92cfdbf9a71d148401fcc420399927817c6e2c0b6a5f31db745d"
             ],
-            "index": "pypi",
+            "markers": "python_version >= '3.7'",
             "version": "==1.9.0"
         },
         "appnope": {
@@ -101,6 +101,14 @@
             "index": "pypi",
             "version": "==3.0.2"
         },
+        "importlib-resources": {
+            "hashes": [
+                "sha256:32bb095bda29741f6ef0e5278c42df98d135391bee5f932841efc0041f748dc3",
+                "sha256:c09b067d82e72c66f4f8eb12332f5efbebc9b007c0b6c40818108c9870adc363"
+            ],
+            "index": "pypi",
+            "version": "==5.10.1"
+        },
         "ipdb": {
             "hashes": [
                 "sha256:c23b6736f01fd4586cc2ecbebdf79a5eb454796853e1cd8f2ed3b7b91d4a3e93",
@@ -114,7 +122,7 @@
                 "sha256:352042ddcb019f7c04e48171b4dd78e4c4bb67bf97030d170e154aac42b656d9",
                 "sha256:882899fe78d5417a0aa07f995db298fa28b58faeba2112d2e3a4c95fe14bb738"
             ],
-            "index": "pypi",
+            "markers": "python_version < '3.11' and python_version >= '3.7'",
             "version": "==8.7.0"
         },
         "itsdangerous": {
@@ -316,7 +324,7 @@
                 "sha256:f7944b04e6fcf8d733964dd9ee36b6a587251a1a4049af3a9b846f6e64eb349a",
                 "sha256:fd69850860093a3f69fefe0ab56d041edfdfe18510b53d9a2eaecba2f15fa795"
             ],
-            "index": "pypi",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
             "version": "==1.4.45"
         },
         "sqlalchemy-serializer": {

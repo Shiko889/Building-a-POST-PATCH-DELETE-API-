@@ -33,7 +33,7 @@ def games():
         games.append(game_dict)
 
     response = make_response(
-        jsonify(games),
+        games,
         200
     )
 
@@ -46,7 +46,7 @@ def game_by_id(id):
     game_dict = game.to_dict()
 
     response = make_response(
-        jsonify(game_dict),
+        game_dict,
         200
     )
 
@@ -61,7 +61,7 @@ def reviews():
         reviews.append(review_dict)
 
     response = make_response(
-        jsonify(reviews),
+        reviews,
         200
     )
 
@@ -76,11 +76,11 @@ def users():
         users.append(user_dict)
 
     response = make_response(
-        jsonify(users),
+        users,
         200
     )
 
     return response
 
 if __name__ == '__main__':
-    app.run(port=5555)
+    app.run(port=5555, debug=True)
