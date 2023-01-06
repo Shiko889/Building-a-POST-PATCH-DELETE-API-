@@ -172,15 +172,17 @@ request?
 ### Sending Requests with HTTP Methods Other than `GET`
 
 We all know from experience that we can delete resources on the internet:
-emails, Instagram posts with unmade beds in the background, etc. Many of these
-can be performed from the browser, but we don't support them from our API. _Why
-is that?_
+emails, Instagram posts with unmade beds in the background, etc. There are many
+different actions that can be carried out over the internet, and browsers are
+actually very flexible on this front- it's HTML that isn't.
 
-Browsers are actually very flexible on this front- it's HTML that isn't. The
-W3C specifications for HTML say that it should only support `GET` and `POST`.
-This means that any requests sent to the API through the browser with
+The W3C specifications for HTML say that it should only support `GET` and
+`POST`. This means that any requests sent to the API through the browser with
 unsupported methods will have these methods cast to `GET`...which will then be
 used to update and delete resources. (We don't want that!)
+
+Because of these limitations, we haven't explored too many HTTP methods with
+Flask up to this point.
 
 We can use Python scripts and applications with libraries like `requests` to
 test our `DELETE` resource, but it is often easier to just use Postman.
