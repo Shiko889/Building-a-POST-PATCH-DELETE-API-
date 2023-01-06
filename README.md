@@ -124,7 +124,7 @@ request just like we would for a GET request, just by changing the method:
 
 @app.route('/reviews/<int:id>', methods=['GET', 'DELETE'])
 def review_by_id(id):
-    review = Review.query.filter_by(id=id).first()
+    review = Review.query.filter(Review.id == id).first()
 
     if request.method == 'GET':
         review_dict = review.to_dict()
@@ -431,7 +431,7 @@ Ok, here's how the code for this route would look:
     # GET
     
     elif request.method == 'PATCH':
-        review = Review.query.filter_by(id=id).first()
+        review = Review.query.filter(Review.id == id).first()
 
         for attr in request.form:
             setattr(review, attr, request.form.get(attr))
@@ -517,7 +517,7 @@ def games():
 
 @app.route('/games/<int:id>')
 def game_by_id(id):
-    game = Game.query.filter_by(id=id).first()
+    game = Game.query.filter(Game.id == id).first()
     
     game_dict = game.to_dict()
 
@@ -566,7 +566,7 @@ def reviews():
 
 @app.route('/reviews/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def review_by_id(id):
-    review = Review.query.filter_by(id=id).first()
+    review = Review.query.filter(Review.id == id).first()
     
     if review == None:
         response_body = {
@@ -588,7 +588,7 @@ def review_by_id(id):
             return response
 
         elif request.method == 'PATCH':
-            review = Review.query.filter_by(id=id).first()
+            review = Review.query.filter(Review.id == id).first()
 
             for attr in request.form:
                 setattr(review, attr, request.form.get(attr))
