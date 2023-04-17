@@ -483,7 +483,7 @@ you can build an API for almost any application you can think of!
 ```py
 # server/app.py
 
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, request, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -574,7 +574,7 @@ def review_by_id(id):
         response_body = {
             "message": "This record does not exist in our database. Please try again."
         }
-        response = make_response(jsonify(response_body), 404)
+        response = make_response(response_body, 404)
 
         return response
         
