@@ -433,8 +433,6 @@ Ok, here's how the code for this route would look:
     # GET
     
     elif request.method == 'PATCH':
-        review = Review.query.filter(Review.id == id).first()
-
         for attr in request.form:
             setattr(review, attr, request.form.get(attr))
 
@@ -590,8 +588,6 @@ def review_by_id(id):
             return response
 
         elif request.method == 'PATCH':
-            review = Review.query.filter(Review.id == id).first()
-
             for attr in request.form:
                 setattr(review, attr, request.form.get(attr))
 
