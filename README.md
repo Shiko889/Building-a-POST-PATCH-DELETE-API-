@@ -4,25 +4,25 @@
 
 - Build an API to handle POST, PATCH, and DELETE requests.
 
-***
+---
 
 ## Key Vocab
 
 - **Application Programming Interface (API)**: a software application that
-  allows two or more software applications to communicate with one another.
-  Can be standalone or incorporated into a larger product.
+  allows two or more software applications to communicate with one another. Can
+  be standalone or incorporated into a larger product.
 - **HTTP Request Method**: assets of HTTP requests that tell the server which
   actions the client is attempting to perform on the located resource.
 - **`GET`**: the most common HTTP request method. Signifies that the client is
   attempting to view the located resource.
 - **`POST`**: the second most common HTTP request method. Signifies that the
   client is attempting to submit a form to create a new resource.
-- **`PATCH`**: an HTTP request method that signifies that the client is attempting
-  to update a resource with new information.
+- **`PATCH`**: an HTTP request method that signifies that the client is
+  attempting to update a resource with new information.
 - **`DELETE`**: an HTTP request method that signifies that the client is
   attempting to delete a resource.
 
-***
+---
 
 ## Introduction
 
@@ -38,11 +38,11 @@ applications — they allow users to **C**reate, **R**ead, **U**pdate, and
 **D**elete information.
 
 We've seen a few ways to Read data in an API. We've also already seen how to
-Create/Update/Delete records from a database using SQLAlchemy. All that's
-left is to connect what we know from SQLAlchemy with some new techniques for
+Create/Update/Delete records from a database using SQLAlchemy. All that's left
+is to connect what we know from SQLAlchemy with some new techniques for
 establishing routes and accessing data in our Flask application.
 
-***
+---
 
 ## Setup
 
@@ -56,9 +56,9 @@ $ flask db upgrade
 $ python seed.py
 ```
 
-You can view the models in the `server/models.py` module, and the migrations in the
-`server/migrations/versions` directory. Here's what the relationships will look
-like in our ERD:
+You can view the models in the `server/models.py` module, and the migrations in
+the `server/migrations/versions` directory. Here's what the relationships will
+look like in our ERD:
 
 ![Game Reviews ERD](https://curriculum-content.s3.amazonaws.com/phase-3/active-record-associations-many-to-many/games-reviews-users-erd.png)
 
@@ -74,7 +74,7 @@ $ python app.py
 
 With that set up, let's start working on some CRUD!
 
-***
+---
 
 ## Handling DELETE Requests
 
@@ -142,7 +142,7 @@ def review_by_id(id):
 
         response_body = {
             "delete_successful": True,
-            "message": "Review deleted."    
+            "message": "Review deleted."
         }
 
         response = make_response(
@@ -193,9 +193,7 @@ test our `DELETE` resource, but it is often easier to just use Postman.
 Sending a `GET` request (the default method) for the first review will return
 something similar to the following:
 
-![GET request Postman for reviews/1 on localhost server with JSON response](
-https://curriculum-content.s3.amazonaws.com/python/building-post-patch-delete-api-postman-1.png
-)
+![GET request Postman for reviews/1 on localhost server with JSON response](https://curriculum-content.s3.amazonaws.com/python/building-post-patch-delete-api-postman-1.png)
 
 I know what you're thinking: how could we possibly delete this illuminating
 review of "All lawyer as teacher world any"? How will anyone know that
@@ -205,28 +203,26 @@ Alas, we need to make sure our API works. Change the request method to `DELETE`
 with the dropdown menu to the left of the search bar and submit a new request to
 this resource.
 
-![DELETE request Postman for reviews/1 on localhost server with JSON response](
-https://curriculum-content.s3.amazonaws.com/python/building-post-patch-delete-api-postman-2.png
-)
+![DELETE request Postman for reviews/1 on localhost server with JSON response](https://curriculum-content.s3.amazonaws.com/python/building-post-patch-delete-api-postman-2.png)
 
-> **NOTE: You may notice that the port accessed here has switched to
-> 5001. You can run whichever port you like on your machine, as long as there
-> isn't a conflict with another application. We typically use
-> 5555 since it is the easiest 5000s port to remember after 5000, which sees the
-> AirPlay conflict on MacOS.**
+> **NOTE: You may notice that the port accessed here has switched to 5001. You
+> can run whichever port you like on your machine, as long as there isn't a
+> conflict with another application. We typically use 5555 since it is the
+> easiest 5000s port to remember after 5000, which sees the AirPlay conflict on
+> MacOS.**
 
-Navigate back to the same resource with `GET` and you should see a `500
-Internal Server Error`. There's no resource here anymore! This is obviously not
-the most helpful message, but it can be handled with control flow just like any
-other error. A simple solution will be included in the solution code at the end
-of this lesson.
+Navigate back to the same resource with `GET` and you should see a
+`500 Internal Server Error`. There's no resource here anymore! This is obviously
+not the most helpful message, but it can be handled with control flow just like
+any other error. A simple solution will be included in the solution code at the
+end of this lesson.
 
-***
+---
 
 ## Handling POST Requests
 
-For our next feature, let's give our users the ability to **Create** new reviews.
-From the frontend, here's how our React component might look:
+For our next feature, let's give our users the ability to **Create** new
+reviews. From the frontend, here's how our React component might look:
 
 ```js
 // example code
@@ -291,22 +287,22 @@ def reviews():
         )
 
         return response
-    
+
     elif request.method == 'POST':
         response_body = {}
         response = make_response(
             response_body,
             201
         )
-        
+
         return response
 
 ```
 
 > **NOTE: A 201 status code means that a record has been successfully created.**
 
-In this new block, we'll need to create a new record using the attributes
-passed in the request.
+In this new block, we'll need to create a new record using the attributes passed
+in the request.
 
 ```py
 # server/app.py
@@ -328,7 +324,7 @@ def reviews():
         )
 
         return response
-    
+
     elif request.method == 'POST':
         new_review = Review(
             score=request.form.get("score"),
@@ -339,7 +335,7 @@ def reviews():
 
         db.session.add(new_review)
         db.session.commit()
-        
+
         review_dict = new_review.to_dict()
 
         response = make_response(
@@ -353,18 +349,16 @@ def reviews():
 
 The request context has access to form data, among many other things. While we
 haven't created a form here, makeshift forms can still be attached to requests
-and their attributes can be parsed to create new records. It's important that
-we create `review_dict` _after_ committing the review to the database, as this
+and their attributes can be parsed to create new records. It's important that we
+create `review_dict` _after_ committing the review to the database, as this
 populates it with an ID and data from its game and user. Submitting a `POST`
 request with Postman should return something like this:
 
-![POST request Postman for reviews on localhost server with JSON response](
-https://curriculum-content.s3.amazonaws.com/python/building-post-patch-delete-api-postman-3.png
-)
+![POST request Postman for reviews on localhost server with JSON response](https://curriculum-content.s3.amazonaws.com/python/building-post-patch-delete-api-postman-3.png)
 
 Now that we've created, read, and deleted data, let's look at how to update.
 
-***
+---
 
 ## Handling PATCH Requests
 
@@ -429,16 +423,16 @@ Ok, here's how the code for this route would look:
 
 # imports, config, games, game_by_id, reviews
 @app.route('/reviews/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
-    
+
     # GET
-    
+
     elif request.method == 'PATCH':
         for attr in request.form:
             setattr(review, attr, request.form.get(attr))
 
         db.session.add(review)
         db.session.commit()
-        
+
         review_dict = review.to_dict()
 
         response = make_response(
@@ -462,11 +456,9 @@ Ok, here's how the code for this route would look:
 Run a `PATCH` request in Postman and you should see something similar to the
 following:
 
-![PATCH request Postman for reviews on localhost server with JSON response](
-https://curriculum-content.s3.amazonaws.com/python/building-post-patch-delete-api-postman-4.png
-)
+![PATCH request Postman for reviews on localhost server with JSON response](https://curriculum-content.s3.amazonaws.com/python/building-post-patch-delete-api-postman-4.png)
 
-***
+---
 
 ## Conclusion
 
@@ -474,12 +466,12 @@ You're at the point now where you can create a JSON API that handles all four
 CRUD actions: Create, Read, Update, and Delete. With just these four actions,
 you can build an API for almost any application you can think of!
 
-***
+---
 
 ## Solution Code
 
 ```py
-# server/app.py
+#!/usr/bin/env python3
 
 from flask import Flask, request, make_response
 from flask_sqlalchemy import SQLAlchemy
@@ -518,7 +510,7 @@ def games():
 @app.route('/games/<int:id>')
 def game_by_id(id):
     game = Game.query.filter(Game.id == id).first()
-    
+
     game_dict = game.to_dict()
 
     response = make_response(
@@ -543,7 +535,7 @@ def reviews():
         )
 
         return response
-    
+
     elif request.method == 'POST':
         new_review = Review(
             score=request.form.get("score"),
@@ -554,7 +546,7 @@ def reviews():
 
         db.session.add(new_review)
         db.session.commit()
-        
+
         review_dict = new_review.to_dict()
 
         response = make_response(
@@ -567,7 +559,7 @@ def reviews():
 @app.route('/reviews/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def review_by_id(id):
     review = Review.query.filter(Review.id == id).first()
-    
+
     if review == None:
         response_body = {
             "message": "This record does not exist in our database. Please try again."
@@ -575,7 +567,7 @@ def review_by_id(id):
         response = make_response(response_body, 404)
 
         return response
-        
+
     else:
         if request.method == 'GET':
             review_dict = review.to_dict()
@@ -609,7 +601,7 @@ def review_by_id(id):
 
             response_body = {
                 "delete_successful": True,
-                "message": "Review deleted."    
+                "message": "Review deleted."
             }
 
             response = make_response(
@@ -639,7 +631,7 @@ if __name__ == '__main__':
 
 ```
 
-***
+---
 
 ## Resources
 
