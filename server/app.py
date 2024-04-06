@@ -13,7 +13,7 @@ app.json.compact = False
 
 migrate = Migrate(app, db)
 
-db.init_app(app)
+db.init_app( app )
 
 @app.route('/')
 def index():
