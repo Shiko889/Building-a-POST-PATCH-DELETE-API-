@@ -3,6 +3,7 @@
 ## Learning Goals
 
 - Build an API to handle POST, PATCH, and DELETE requests.
+- Understand how to use the `http` package in Golang for handling HTTP requests.
 
 ---
 
