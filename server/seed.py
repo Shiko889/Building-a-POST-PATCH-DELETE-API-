@@ -1,12 +1,9 @@
-#!/usr/bin/env python3
-
 from random import randint, choice as rc
-
 from faker import Faker
-
 from app import app
 from models import db, Game, Review, User
 
+# Define genres and platforms
 genres = [
     "Platformer",
     "Shooter",
@@ -63,48 +60,50 @@ platforms = [
     "PC",
 ]
 
+# Initialize Faker for generating fake data
 fake = Faker()
 
+# Create instances of users, games, and reviews
 with app.app_context():
-
+    # Clear existing data from tables
     Review.query.delete()
     User.query.delete()
     Game.query.delete()
 
+    # Add users to the database
     users = []
     for i in range(100):
-        u = User(name=fake.name(),)
-        users.append(u)
+        user = User(name=fake.name())
+        users.append(user)
 
     db.session.add_all(users)
 
+    # Add games to the database
     games = []
     for i in range(100):
-        g = Game(
+        game = Game(
             title=fake.sentence(),
             genre=rc(genres),
             platform=rc(platforms),
-            price=randint(5, 60),
+            price=randint(5, 60)
         )
-        games.append(g)
+        games.append(game)
 
     db.session.add_all(games)
 
+    # Add reviews to the database
     reviews = []
-    for u in users:
+    for user in users:
         for i in range(randint(1, 10)):
-            r = Review(
+            review = Review(
                 score=randint(0, 10),
                 comment=fake.sentence(),
-                user=u,
-                game=rc(games))
-            reviews.append(r)
+                user=user,
+                game=rc(games)
+            )
+            reviews.append(review)
 
     db.session.add_all(reviews)
 
-    for g in games:
-        r = rc(reviews)
-        g.review = r
-        reviews.remove(r)
-
+    # Commit changes to the database
     db.session.commit()
